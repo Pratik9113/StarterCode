@@ -6,6 +6,7 @@ import NgoSignIn from "./components/NgoSignIn";
 import NgoSignUp from "./components/NgoSignUp";
 import StudentSignIn from "./components/StudentSignIn";
 import StudentSignUp from "./components/StudentSignUp";
+import StudentProfile from "./components/StudentProfile";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path='/ngo-signup' element={<NgoSignUp />}></Route>
           <Route path='/student-signin' element={<StudentSignIn />}></Route>
           <Route path='/student-signup' element={<StudentSignUp />}></Route>
+          <Route path='/student-profile' element={<StudentProfile />}></Route>
         </Routes>
       </Router>
     </>
