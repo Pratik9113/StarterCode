@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
@@ -14,10 +15,27 @@ const Navbar = () => {
         _id: "",
     });
 
+    useEffect(() => {
+        const getStudentProfile = async () => {
+            const url = `${import.meta.env.VITE_BACKEND}/student/profile`;
+            try {
+                const response = await axios.get(url, {
+                    withCredentials: true
+                })
+                if (response.data.success) {
+                    setUser(response.data.data);
+                }
+            } catch (error) {
+                alert(error);
+            }
+        }
+        getStudentProfile();
+    }, []);
+
     const handleOpenPopup = () => {
         setPopup(true)
     }
-    
+
     return (
         <div className="navbar">
             <div className="navbar-left">
