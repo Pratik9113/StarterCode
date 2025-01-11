@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Todo from "./Todo";
 const NgoDashboard = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const NgoDashboard = () => {
                     }
                 )
                 if (response.data.success) {
-
+                    setData(response.data.data.student)
                 }
             } catch (error) {
                 alert(error);
@@ -74,6 +75,9 @@ const NgoDashboard = () => {
                     </tbody>
                 </table>
 
+                {selectedRow && modalOpen &&
+                    <Todo user={selectedRow} handleCloseModal={handleCloseModal} />
+                }
 
                 <br /> <br />
                 <button onClick={handleLogout}>Logout</button>

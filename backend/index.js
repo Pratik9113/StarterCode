@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import LoginRouter from "./routes/LoginRoute.js";
 import ngoRouter from "./routes/ngoRoute.js";
 import ProfileRouter from "./routes/profile.js";
+import TodoRouter from "./routes/Todo.js";
 dotenv.config();
 
 const app = express();
@@ -27,6 +28,7 @@ app.get('/', (req, res)=>{
 app.use("/user", LoginRouter);
 app.use("/ngo",ngoRouter);
 app.use("/student",ProfileRouter)
+app.use("/todo", TodoRouter);
 
 
 connectDb();
