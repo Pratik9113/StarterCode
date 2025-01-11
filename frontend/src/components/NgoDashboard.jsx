@@ -7,7 +7,16 @@ const NgoDashboard = () => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        navigate("/");
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`,{
+            withCredentials:true
+        })
+        if(response.status==200){
+            alert(response.data.msg)
+            navigate("/");
+        }
+        else{
+            alert(response.data.msg)
+        }
     };
 
 

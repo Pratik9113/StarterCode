@@ -55,7 +55,10 @@ const Todo = ({ user, handleCloseModal }) => {
             const url = `${import.meta.env.VITE_BACKEND}/todo/get`
             try {
                 const response = await axios.get(url, {
-                    withCredentials: true
+                    withCredentials: true,
+                    params:{
+                        studentId:user._id
+                    }
                 })
                 if (response.data.success) {
                     setTodos(response.data.data);

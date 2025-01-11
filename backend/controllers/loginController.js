@@ -27,12 +27,14 @@ const NgoSignUp = async (req, res) => {
 
     await newNgo.save();
     const token = jwt.sign({ userId: newNgo._id }, process.env.SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
     res.cookie("tokenNgo", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
+      maxAge: 86400000
+      
     });
 
     return res
@@ -63,12 +65,13 @@ const NgoSignIn = async (req, res) => {
 
     if (ngo.password === password) {
       const token = jwt.sign({ userId: ngo._id }, process.env.SECRET, {
-        expiresIn: "1h",
+        expiresIn: "1d",
       });
       res.cookie("tokenNgo", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+        maxAge: 86400000
       });
 
       return res
@@ -124,12 +127,13 @@ const StudentSignUp = async (req, res) => {
     }
 
     const token = jwt.sign({ userId: newStudent._id }, process.env.SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
     res.cookie("tokenUser", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
+      maxAge: 86400000
     });
 
     return res
@@ -159,12 +163,13 @@ const StudentSignIn = async (req, res) => {
 
     if (student.password === password) {
       const token = jwt.sign({ userId: student._id }, process.env.SECRET, {
-        expiresIn: "1h",
+        expiresIn: "1d",
       });
       res.cookie("tokenUser", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+        maxAge: 86400000
       });
 
       return res
@@ -183,4 +188,25 @@ const StudentSignIn = async (req, res) => {
   }
 };
 
-export { NgoSignUp, NgoSignIn, StudentSignUp, StudentSignIn };
+
+const logoutController = async(req,res)=>{
+  const tokenNgo = req.cookies.tokenNgo;
+  console.log(tokenNgo)
+  try {
+    if(tokenNgo){
+      res.clearCookie('tokenNgo')
+      res.status(200).json({msg:'Ngo signout successfully'})
+    }else{
+      res.clearCookie('tokenUser')
+      res.status(200).json({msg:'Student signout successfully'})
+    }
+  } catch (error) {
+    console.log("Failed to delete the cookies")
+    res.status(500).json({msg:"Something went wrong"})
+  }
+  
+}
+
+
+
+export { NgoSignUp, NgoSignIn, StudentSignUp, StudentSignIn ,logoutController};

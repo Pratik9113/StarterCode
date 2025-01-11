@@ -20,7 +20,7 @@ const getStudentProfile = async(req,res) => {
     console.log("UserId", userId);
 
     try {
-        const ngo = await NgoModel.findById({_id:userId});
+        const ngo = await NgoModel.findById({_id:userId}).populate('student');
         console.log(ngo);
 
         return res.status(200).json({success:true, data:ngo});

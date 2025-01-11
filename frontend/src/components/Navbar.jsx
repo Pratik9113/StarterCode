@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const [popup, setPopup] = useState(false);
     const [user, setUser] = useState({
         name: "pratik",
@@ -23,6 +25,7 @@ const Navbar = () => {
                     withCredentials: true
                 })
                 if (response.data.success) {
+                    
                     setUser(response.data.data);
                 }
             } catch (error) {
@@ -35,6 +38,23 @@ const Navbar = () => {
     const handleOpenPopup = () => {
         setPopup(true)
     }
+    const navigateToTodo =()=>{
+        navigate(`/assigned-todo/${user._id}`)
+    }
+    const logout = async()=>{
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND}/user/logout`,{
+            withCredentials:true
+        })
+        const data = response.data;
+        if(response.status==200){
+            alert(data.msg)
+            navigate('/')
+        }
+        else{
+            alert(data.msg)
+        }
+    }
+    // console.log(user._id)
 
     return (
         <div className="navbar">
@@ -50,11 +70,11 @@ const Navbar = () => {
                     Go to Videos
                 </button>
 
-                <button className="navigate-btn">
+                <button className="navigate-btn" onClick={navigateToTodo}>
                     AssignedTodo
                 </button>
 
-                <button>Logout</button>
+                <button onClick={logout}>Logout</button>
             </div>
 
 
